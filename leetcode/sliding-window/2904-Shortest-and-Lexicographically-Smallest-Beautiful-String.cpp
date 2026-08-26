@@ -5,34 +5,29 @@ public:
             if(k == 1 && s[0] == '1') return s;
             else return "";
         }
-        vector<string> ans;
-        // string temp = "";
-        int left = 0;
-        int right = 0;
+        string best = "";
+        int n = s.size();
+        int r = 0, l = 0;
         int cnt = 0;
-        int minLen = INT_MAX;
-        while(right < s.length()){
-            if(s[right] == '1') cnt++;
-            if(cnt == k){
-                int len = right -left + 1;
-                minLen = min(len, minLen);
-                ans.emplace_back(s.substr(left, len));
-            };
-            while(cnt >= k || s[left] == '0'){
-                if(s[left] == '1') cnt--;
-                left++;
+        
+        while(r < n){
+            if(s[r] == '1') cnt++;
+            
+            while(cnt >= k){
+                int current_len = r - l + 1;
+                string current_str = s.substr(l, current_len);
+                
+                if(best == "" || best.length() > current_len || 
+                  (best.length() == current_len && current_str < best)){
+                    best = current_str;
+                }
+                
+                if(s[l] == '1') cnt--;
+                l++;
             }
-            right++;
+            r++;
         }
-        for(int i = 0; i < ans.size(); i++){
-            if(ans[i].length() != minLen){
-                ans[i] = "";
-            }
-        }
-        sort(ans.begin(), ans.end());
-        for(auto it : ans){
-            if(it != "") return it;
-        }
-        return "";
+        
+        return best;
     }
 };
