@@ -1,12 +1,15 @@
 class Solution {
 public:
-    int solve(int n){
-        if(n == 0) return 0;
-        int a = n%2 + solve(n/2);
-        int b = n%3 + solve(n/3);
-        return 1 + min(a, b);
+    int solve(int n, unordered_map<int, int>& dp){
+        if(n <= 1) return n;
+        if(dp.find(n) != dp.end()) return dp[n];
+        int a = n%2 + 1 + solve(n/2, dp);
+        int b = n%3 + 1 + solve(n/3, dp);
+        return dp[n] = min(a, b);
     }
     int minDays(int n) {
-        return solve(n)-1;
+        unordered_map<int, int> dp;
+        dp[0] = 0;
+        return solve(n , dp);
     }
 };
