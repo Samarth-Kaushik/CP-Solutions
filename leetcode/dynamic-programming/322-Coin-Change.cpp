@@ -16,22 +16,14 @@ public:
     int coinChange(vector<int>& coins, int amount) {
         int n = coins.size();
         // int ans = solve(n-1, amount, coins);
-        vector<vector<int>> dp(n, vector<int>(amount+1, 0));
-        for(int i = 1; i <= amount; i++){
-            if(i%coins[0] == 0) dp[0][i] = i/coins[0];
-            else dp[0][i] = 1e9;
-        }
-        for(int i = 1; i < n; i++){
-            for(int tar = 0; tar <= amount; tar++){
-                int notTake = dp[i-1][tar];
-                int take = INT_MAX;
-                if(coins[i] <= tar){
-                    take = 1 + dp[i][tar-coins[i]];
-                }
-                dp[i][tar] = min(take , notTake);
+        vector<int> dp(amount+1, 1e9);
+        dp[0] = 0;
+        for(int i = 0; i < n; i++){
+            for(int j = coins[i]; j <= amount; j++){
+                dp[j] = min(dp[j], 1 + dp[j-coins[i]]);
             }
         }
-        if(dp[n-1][amount] == 1e9) return -1;
-        return dp[n-1][amount];
+        if(dp[amount] >= 1e9) return -1;
+        return dp[amount];
     }
 };
