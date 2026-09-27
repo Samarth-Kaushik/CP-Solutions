@@ -1,16 +1,28 @@
+//worm-hole approach
+
 class Solution {
 public:
     string reverseParentheses(string s) {
-        stack<int> len;
+        stack<int> openBr;
         int n = s.size();
-        string temp = "";
+        vector<int> door(n);
         for(int i = 0; i < n; i++){
-            if(s[i] == '(') len.push(temp.size());
+            if(s[i] == '(') openBr.push(i);
             else if(s[i] == ')'){
-                reverse(temp.begin()+len.top(), temp.end());
-                len.pop();
-            }else temp += s[i];
+                int j = openBr.top();
+                openBr.pop();
+                door[i] = j;
+                door[j] = i;
+            }
         }
-        return temp;
+        int flag = 1;
+        string ans = "";
+        for(int i = 0; i < n; i += flag){
+            if(s[i] == '(' || s[i] == ')'){
+                i = door[i];
+                flag *= -1;
+            }else ans.push_back(s[i]);
+        }
+        return ans;
     }
 };
