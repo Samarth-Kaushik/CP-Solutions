@@ -1,43 +1,31 @@
 class Solution {
 public:
-    bool hasValidPath(vector<vector<char>>& grid) {
+    bool solve(int i, int j, vector<vector<char>>& grid, int cnt, vector<vector<vector<int>>>& dp){
+        int n = grid.size();
+        int m = grid[0].size();
         
-        int m = grid.size();
-        int n = grid[0].size();
-        if(grid[0][0] == ')' || grid[m-1][n-1] == '(') return false;
-        //ind, cnt
-        queue<pair<pair<int, int>, int>> q;
-        // x, y, cnt
-        vector<vector<vector<bool>>> visited(m,
-        vector<vector<bool>>(n, vector<bool>(m+n, false)));
-        q.push({{0, 0}, 1});
-        visited[0][0][1] = true;
-        vector<int> dx = {1, 0};
-        vector<int> dy = {0, 1};
-        while(!q.empty()){
-            int sz = q.size();
-            for(int i = 0; i < sz; i++){
-                auto it = q.front();
-                if(it.first.first == m-1 && it.first.second == n-1){
-                    if(it.second == 0) return true;
-                }
-                q.pop();
-                for(int j = 0; j < 2; j++){
-                    int x = it.first.first + dx[j];
-                    int y = it.first.second + dy[j];
-                    int cnt = it.second;
-                    if(x >= 0 && x < m && y >= 0 && y < n){
-                        int newCnt = cnt;
-                        if(grid[x][y] == '(') newCnt++;
-                        else newCnt--;
-                        if(newCnt >= 0 && newCnt < (m+n) && !visited[x][y][newCnt]){
-                            visited[x][y][newCnt] = true;
-                            q.push({{x, y}, newCnt});
-                        }
-                    }
-                }
-            }
+        if(i >= n || j >= m){
+            return false;
         }
-        return false;
+        if(grid[i][j] == '(') cnt++;
+        else cnt--;
+        if(cnt < 0) return false;
+        if(i == n - 1 && j == m - 1) return cnt == 0;
+        if(dp[i][j][cnt] != -1) return dp[i][j][cnt];
+        bool right = solve(i+1, j, grid, cnt, dp);
+        bool bottom = solve(i, j+1, grid, cnt, dp);
+        return dp[i][j][cnt] = (right || bottom);
+    }
+    
+    bool hasValidPath(vector<vector<char>>& grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+        if(grid[0][0] == ')' || grid[n-1][m-1] == '(') return false;
+
+        vector<vector<vector<int>>> dp(
+            n, vector<vector<int>>(m, vector<int>(m+n, -1))
+        );
+        
+        return solve(0, 0, grid, 0, dp);
     }
 };
