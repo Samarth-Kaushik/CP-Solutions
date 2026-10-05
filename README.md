@@ -8,7 +8,7 @@ Codeforces, LeetCode, CSES, CodeChef &amp; GeeksforGeeks solutions, organized cl
 
 Synced automatically by SolveBase.
 
-**Total solved: 58**
+**Total solved: 59**
 
 ## Codeforces
 
@@ -25,7 +25,7 @@ Solutions by [Samarth_Kaushik](https://codeforces.com/profile/Samarth_Kaushik), 
 
 Solutions organized by primary topic folder.
 
-**Solved: 49**
+**Solved: 50**
 
 | Topic | Solved |
 | --- | --- |
@@ -38,7 +38,7 @@ Solutions organized by primary topic folder.
 | [math](./leetcode/math) | 2 |
 | [misc](./leetcode/misc) | 5 |
 | [sliding-window](./leetcode/sliding-window) | 2 |
-| [stack](./leetcode/stack) | 3 |
+| [stack](./leetcode/stack) | 4 |
 | [string](./leetcode/string) | 2 |
 | [tree](./leetcode/tree) | 2 |
 | [two-pointers](./leetcode/two-pointers) | 3 |
@@ -81,5 +81,5 @@ Solutions organized by difficulty level.
 | — | 0 |
 
 
-_Last updated: 2026-10-04_
+_Last updated: 2026-10-05_
 <!-- /cf-sync -->
