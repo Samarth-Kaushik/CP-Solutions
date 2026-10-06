@@ -30,36 +30,37 @@ public:
         }
         // int cnt = 0;
         vector<int> ans;
-        queue<pair<TreeNode*, int>> q1;
-        q1.push({target, 0});
-        if(k == 0) return {target->val};
+        q.push(target);
         unordered_map<TreeNode*, bool> visited;
         visited[target] = true;
-        while(!q1.empty()){
-            int n = q1.size();
-            for(int i = 0; i < n; i++){
-                auto temp = q1.front();
-                q1.pop();
-                TreeNode* node = temp.first;
-                int dis = temp.second;
-                if(dis > k) continue;
-                if(dis == k){
-                    ans.push_back(node->val);
-                    continue;
-                }
+        int currLevel = 0;
+        while(!q.empty()){
+            int n = q.size();
+            TreeNode* node = q.front();
+            // q.pop();
+            if(currLevel == k) break;
+           for(int i = 0; i < n; i++){
+            TreeNode* node = q.front();
+                q.pop();
+                
                 if(parentMap[node] && !visited[parentMap[node]]){
-                    q1.push({parentMap[node], dis+1});
+                    q.push(parentMap[node]);
                     visited[parentMap[node]] = true;
                 }
                 if(node->left && !visited[node->left]){
-                    q1.push({node->left, dis+1});
+                    q.push(node->left);
                     visited[node->left] = true;
                 }
-                if(node->right && !visited[node->right]) {
-                    q1.push({node->right, dis+1});
+                if(node->right && !visited[node->right]){
+                    q.push(node->right);
                     visited[node->right] = true;
                 }
-            }
+           }
+            currLevel++;
+        }
+        while(!q.empty()){
+            ans.push_back(q.front()->val);
+            q.pop();
         }
         return ans;
     }
